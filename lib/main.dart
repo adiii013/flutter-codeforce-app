@@ -1,4 +1,5 @@
 import 'package:codeforces_app/screens/rating_screen.dart';
+import 'package:codeforces_app/screens/submission_screen.dart';
 import 'package:flutter/material.dart';
 import './screens/profile_screen.dart';
 
@@ -48,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               ProfileScreen(),
               RatingScreen(),
-              Icon(Icons.access_alarm)
+              SubmissionScreen(),
             ],
           ),
         ),
