@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:codeforces_app/components/circulating_circle.dart';
 import 'package:codeforces_app/components/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -30,8 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     return Scaffold(
-        body: Center(
-      child: FutureBuilder<List<dynamic>>(
+        body:  FutureBuilder<List<dynamic>>(
         future: getData(),
         builder: (context, snapshot) {
           if (snapshot.data != null) {
@@ -40,14 +40,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             String rank = snapshot.data![0]['rank'].toString();
             String maxRank = snapshot.data![0]['maxRank'].toString();
             String maxRating = snapshot.data![0]['maxRating'].toString();
-            String minRating = snapshot.data![0]['minRating'].toString();
+            String rating = snapshot.data![0]['rating'].toString();
             return ProfileView(
-                username, url, rank, maxRank, minRating, maxRating);
+                username, url, rank, maxRank, rating, maxRating);
           } else {
-            return CircularProgressIndicator();
+            return Circle();
           }
         },
       ),
-    ));
+    );
   }
 }
