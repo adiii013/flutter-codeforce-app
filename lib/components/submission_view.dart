@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SubmissionView extends StatelessWidget {
   final String problemIndex;
   final String name;
-  final int rating;
+  var rating;
   final String participantType;
   final String verdict;
 
@@ -26,7 +26,7 @@ class SubmissionView extends StatelessWidget {
                 Column(
                   children: [
                     Text('Rating'),
-                    Text(rating.toString())
+                    Text((rating!=null)?rating.toString():'?')
                   ],
                 ),
                 Column(

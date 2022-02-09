@@ -6,19 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class SubmissionScreen extends StatefulWidget {
-  SubmissionScreen({Key? key}) : super(key: key);
-
+  final String username;
+  SubmissionScreen(this.username);
   @override
-  State<SubmissionScreen> createState() => _SubmissionScreenState();
+  State<SubmissionScreen> createState() => _SubmissionScreenState(username);
 }
 
 class _SubmissionScreenState extends State<SubmissionScreen> {
+  final String user;
+  _SubmissionScreenState(this.user);
   @override
   Widget build(BuildContext context) {
     Future<List<dynamic>> getSubmission() async {
       http.Response response;
       response = await http.get(Uri.parse(
-          'https://codeforces.com/api/user.status?handle=Fefer_Ivan&from=1&count=100'));
+          'https://codeforces.com/api/user.status?handle=${user}&count=100'));
+      
       return jsonDecode(response.body)['result'];
     }
 
@@ -32,12 +35,14 @@ class _SubmissionScreenState extends State<SubmissionScreen> {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-               String problemIndex = snapshot.data![index]['problem']['index'];
-               String name = snapshot.data![index]['problem']['name'];
-               int rating = snapshot.data![index]['problem']['rating'];
-               String participantType = snapshot.data![index]['author']['participantType'];
-               String verdict = snapshot.data![index]['verdict'];
-                return SubmissionView(problemIndex,name,rating,participantType,verdict);
+                String problemIndex = snapshot.data![index]['problem']['index'];
+                String name = snapshot.data![index]['problem']['name'];
+                var rating = snapshot.data![index]['problem']['rating'];
+                String participantType =
+                    snapshot.data![index]['author']['participantType'];
+                String verdict = snapshot.data![index]['verdict'];
+                return SubmissionView(
+                    problemIndex, name, rating, participantType, verdict);
               },
             );
           }
