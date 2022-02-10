@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.codeforces_app">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="codeforces_app"
+        android:label="CodeProf"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

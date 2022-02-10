@@ -22,7 +22,8 @@ class _SubmissionScreenState extends State<SubmissionScreen> {
       response = await http.get(Uri.parse(
           'https://codeforces.com/api/user.status?handle=${user}&count=100'));
       
-      return jsonDecode(response.body)['result'];
+        return jsonDecode(response.body)['result'];
+      
     }
 
     return Scaffold(

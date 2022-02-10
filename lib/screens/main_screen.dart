@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:codeforces_app/screens/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key? key}) : super(key: key);
@@ -15,15 +18,15 @@ class _MainScreenState extends State<MainScreen> {
     String name = '';
     final usernameController = TextEditingController();
 
-    Future<void> _showMyDialog() async {
+    Future<void> _showMyDialog(String error) async {
       return showDialog<void>(
         context: context,
-        barrierDismissible: false, 
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             content: SingleChildScrollView(
                 child: Text(
-              'Enter text',
+              error,
               style: TextStyle(fontSize: 20),
             )),
             actions: <Widget>[
@@ -42,14 +45,28 @@ class _MainScreenState extends State<MainScreen> {
       );
     }
 
+    Future<void> checkData() async {
+      var data;
+      final userName = usernameController.text;
+      http.Response response;
+      response = await http.get(Uri.parse(
+          'https://codeforces.com/api/user.info?handles=${userName}'));
+      data = jsonDecode(response.body)['status'];
+      if (data.toString() == 'OK') {
+       Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return TabScreen(userName);}));
+            }
+            else {
+        _showMyDialog('Oopps! Wrong Username');
+      }
+    }
+
     void putUsername() {
       final username = usernameController.text;
       if (username.isEmpty) {
-        _showMyDialog();
+        _showMyDialog('Enter username');
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return TabScreen(username);
-        }));
+        checkData();
       }
     }
 
